@@ -30,9 +30,10 @@
 		var btn = $(this).context.elements.submit;
 		
 		//disable the submit button to stop double submitting
-		$(btn).attr('disabled','disabled');
+		
 		var btn_text = $(btn).html();
-		$(btn).html('Loading...');
+		$(btn).attr('disabled','disabled');
+		$(btn).html('<i class="fa fa-spinner fa-spin fa-lg"></i>');
 		
 		//get the url of the form
 		var url = form.action;
