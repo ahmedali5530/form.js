@@ -3,18 +3,17 @@
 * Author @ahmedali5530
 ***/
 (function ( $ ) {
-    $.fn.submit = function(o, sc, fc ,cc, pc ) {
+    $.fn.submit = function(o, sc, fc ,cc ) {
 		
 		//merge the default options with given options
         var ss = $.extend({
             placement: 'top',
-			alert_type:'alert',
 			redirect : false,
 			reset 	 : false,
 			refresh  : false,
 			datatype : 'html',
 			method : 'POST',
-			cache : false,
+			cache : false
         }, o );
 		
 		//get the current form
@@ -46,7 +45,7 @@
 		
 			$.ajaxSetup({
 				contentType : false,
-				processData : false,
+				processData : false
 			});
 			
 			//prepare the files data
@@ -85,7 +84,7 @@
 		}else{
 			$.ajaxSetup({
 				contentType : 'application/x-www-form-urlencoded',
-				processData : true,
+				processData : true
 			});
 			//set the data if upload is not present
 			//method 1
@@ -109,45 +108,6 @@
 				//shows off the progress of request
 				if('function' == typeof sc){
 					sc(res,form);
-				}
-				
-				//enables the messaging or not with json data transmission.
-				
-				//show messages only if datatype is set to json
-				if(ss.datatype == 'json'){
-					//set alerts
-					if(ss.alert_type == 'alert'){
-						
-						var alert_class = '';
-						
-						if(res.status == ''){
-							
-							alert_class = 'alert-info';
-							
-						}else if(res.status == true){
-							
-							alert_class = 'alert-success';
-							
-						}else if(res.status == false){
-							
-							alert_class = 'alert-danger';
-							
-						}
-						
-						var alert_position = '';
-						
-						if(ss.placement == 'top'){
-							alert_position = 'alert-top';
-						}else if(ss.placement == 'bottom'){
-							alert_position = 'alert-bottom';
-						}else{
-							alert_position = 'alert-top';	
-						}
-						
-						var alert_template = '<div class="alert alert-status '+ alert_class+ ' ' + alert_position+'" id="alert-status"><button class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><div class="row"><div class="container"><span>'+res.message+'</span></div></div></div>';
-						$('body').append(alert_template);	
-						
-					}
 				}
 				
 				//change the button state to normal
@@ -180,10 +140,20 @@
 			statusCode: {
 				404: function() {
 					alert( "page not found" );
-				}
+				},
+				0 : function(){
+					alert('Communication Failure.');
+				},
 			},
 			traditional : true,
 			complete : function(){
+				
+				//reset the contentType and processData to defaults
+				$.ajaxSetup({
+					contentType : 'application/x-www-form-urlencoded',
+					processData : true,
+				});
+				
 				if('function' == typeof cc){
 					cc();
 				}
