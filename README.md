@@ -2,8 +2,8 @@
 A helper jquery plugin to submit forms with ajax and html5 file uploads.
 
 # Usage
-`
-$(document).on('submit','form',function(e){
+```
+$(document).on('submit','form',function(e){`
 	e.preventDefault();
 	$('form',this).submit({
     	options
@@ -18,4 +18,4 @@ $(document).on('submit','form',function(e){
     	//complete callback
   	});
 })
-`
+```
