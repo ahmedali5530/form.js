@@ -3,7 +3,7 @@
 * Author @ahmedali5530
 ***/
 (function ( $ ) {
-    $.fn.submit = function(o, sc, fc ,cc ) {
+    $.fn.submit = function(o, sc, fc ,cc, pc ) {
 		
 		//merge the default options with given options
         var ss = $.extend({
@@ -18,15 +18,16 @@
 		
 		//get the current form
 		//var form = document.forms[this.selector];
-		
-		var form = $(this).context;
-		//console.log(form);
-		
-		//get the form submit button
-		//var btn = $(form)['context']['elements']['submit'];
-		
-		//var btn = $(this).context.elements.item($(this).context.length-1);
-		var btn = $(this).context.elements.submit;
+		if(typeof $(this)[0] === 'undefined'){
+			var form = $(this).context;
+			var form_data = form;
+			var btn = $(this).context.elements.submit;
+		}else{
+			var form = $(this)[0];
+			var form_data = form.elements;
+			var btn = $(this)[0].elements.submit;
+			
+		}
 		
 		//disable the submit button to stop double submitting
 		
@@ -36,6 +37,7 @@
 		
 		//get the url of the form
 		var url = form.action;
+		
 		
 		//determine the enctype of form
 		var enctype = form.enctype;
@@ -49,7 +51,7 @@
 			});
 			
 			//prepare the files data
-			var data = new FormData(form);
+			var data = new FormData(form_data);
 			
 			/* $.each(form,function(k,v){
 			
@@ -142,18 +144,11 @@
 					alert( "page not found" );
 				},
 				0 : function(){
-					alert('Communication Failure.');
-				},
+					alert('No Network Available.');
+				}
 			},
 			traditional : true,
 			complete : function(){
-				
-				//reset the contentType and processData to defaults
-				$.ajaxSetup({
-					contentType : 'application/x-www-form-urlencoded',
-					processData : true,
-				});
-				
 				if('function' == typeof cc){
 					cc();
 				}
